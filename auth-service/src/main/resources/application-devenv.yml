@@ -1,0 +1,19 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka
+server:
+  port: 8082
+
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: broker:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+kafka:
+  producer:
+    auth-topic: auth-events
+    group-topic: group-events
+    role-topic: role-events
+    user-topic: user-events

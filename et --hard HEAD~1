@@ -1,0 +1,324 @@
+[33mcommit 78a16318588e7cba1312707a74007c834f67cdae[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mvishal[m[33m, [m[1;31morigin/vishal[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Feb 6 16:00:41 2025 +0530
+
+    Removed other modules, keeping only auth-service
+    
+    add
+
+[33mcommit e005eccb13058606d2f75261c888d2a631dc02e2[m
+Author: Rajat <63333718+Rajat545@users.noreply.github.com>
+Date:   Wed Feb 5 15:07:45 2025 +0530
+
+    Update and rename jenkinsfile to Jenkinsfile
+
+[33mcommit 6a2105d31ca170b18803d49a1851d76a06adbdc5[m
+Author: Rajat <63333718+Rajat545@users.noreply.github.com>
+Date:   Wed Feb 5 14:34:08 2025 +0530
+
+    Create jenkinsfile
+
+[33mcommit 81cf87ffc8e50ca9a50ed52fb93d68bfe1c9fb81[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Sat Feb 1 20:00:10 2025 +0530
+
+    Done
+    
+    update method in add role, group in user
+
+[33mcommit 86ca8b5f33f408c8f023acb5edeb046f3c8a3f3d[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Jan 30 19:43:35 2025 +0530
+
+    Commit
+    
+    Done
+
+[33mcommit 9aec305f41829ff51524f47e83a035d12d79b8bf[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Wed Jan 29 14:08:04 2025 +0530
+
+    commit
+    
+    done
+
+[33mcommit 6c80d2e71a762f5c03138fabdef91555be675747[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Wed Jan 29 13:47:37 2025 +0530
+
+    commit
+    
+    commit
+
+[33mcommit c706fc00fd356fce05397e2c4cbfc57c4d22f83a[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Tue Jan 28 15:55:20 2025 +0530
+
+    done
+    
+    updated some point
+
+[33mcommit 6b446980c8e028bda31a95754a5871d1b24e36e9[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Tue Jan 28 11:26:23 2025 +0530
+
+    modify endPoint
+    
+    modify endPoint in email controller
+
+[33mcommit 292155a898c53ba5bf38affc95dcc92031a3d95a[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Mon Jan 27 19:44:02 2025 +0530
+
+    Modify email
+    
+    email modify
+
+[33mcommit 7319a11c6fe4cfdec5ce455b741b9d1d17004113[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Jan 16 18:15:17 2025 +0530
+
+    update yml file
+    
+    documents-initiation
+
+[33mcommit 0dd6fdcc4a2db4343a4208df65a6eefa4f73ef1d[m
+Author: Rajat <63333718+Rajat545@users.noreply.github.com>
+Date:   Sat Dec 21 15:32:12 2024 +0530
+
+    Update Dockerfile
+
+[33mcommit 02f4e63a31fca0b37104e5e08998c403206433ad[m
+Author: sh-james001 <sharadsinghvais@gmail.com>
+Date:   Sat Dec 21 15:24:20 2024 +0530
+
+    empid auto generated
+
+[33mcommit 8fa3603b0817d4d18663279745b405db958866e1[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Fri Dec 20 20:19:08 2024 +0530
+
+    commit
+    
+    done
+
+[33mcommit 18731f05ce3371af84fb6bed623c869b355bace0[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Fri Dec 20 17:57:17 2024 +0530
+
+    Commit
+    
+    Done
+
+[33mcommit b36e81ab33b11c64dd611e873f060a002e1bcb6c[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Dec 19 18:53:47 2024 +0530
+
+    modify roles class
+    
+    done
+
+[33mcommit c99bdbebb6709954c092fa24ce66a1cb82e274a1[m
+Author: Rajat <63333718+Rajat545@users.noreply.github.com>
+Date:   Wed Dec 18 12:02:29 2024 +0530
+
+    Create Dockerfile
+
+[33mcommit 19966421eab7dd1d613b2847266c1d978bb6426d[m
+Author: Rajat <63333718+Rajat545@users.noreply.github.com>
+Date:   Wed Dec 18 12:01:42 2024 +0530
+
+    Create Dockerfile
+
+[33mcommit d5e37f96e740cf1172fcae4174d99451a7008f32[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Wed Dec 18 11:53:12 2024 +0530
+
+    commit
+    
+    done
+
+[33mcommit 8e1df03f3aedd391b246cc971475c2ba1fb8e21c[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Wed Dec 18 11:40:25 2024 +0530
+
+    commit
+    
+    Comment test class in subscription module
+
+[33mcommit 1cb544f8a7db0bfb342ce66308c53e17b50bab7a[m
+Merge: 2884521 960bb1d
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Tue Dec 17 17:01:47 2024 +0530
+
+    Merge branch 'vishal' into Main-Branch
+
+[33mcommit 960bb1d539f325c8273d2a3c97b444e34ab09f17[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Tue Dec 17 17:01:26 2024 +0530
+
+    commit
+    
+    done
+
+[33mcommit 288452127263a857e3482b373c40ddae8dd8dfd2[m
+Author: sh-james001 <143481171+sh-james001@users.noreply.github.com>
+Date:   Mon Dec 16 16:53:21 2024 +0530
+
+    Update AuthService.java
+
+[33mcommit 6b12637c8b2eefd2f1e214fb7570136079d89ec7[m
+Author: sh-james001 <143481171+sh-james001@users.noreply.github.com>
+Date:   Mon Dec 16 16:52:17 2024 +0530
+
+    Update keycloakClientConfig.java
+
+[33mcommit 2c3788db9742fa32c19e50c4d5a2c8c86f6b8b47[m
+Merge: 578805e a399c3d
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Sat Dec 14 18:49:51 2024 +0530
+
+    Merge branch 'vishal' into Main-Branch
+
+[33mcommit a399c3d569cb5c10b39b647263f6650a8d0f827c[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Sat Dec 14 18:46:34 2024 +0530
+
+    commit
+    
+    done
+
+[33mcommit 578805e0dcf3a82a958ad76a85fbf59b8044076e[m
+Author: sh-james001 <sharadsinghvais@gmail.com>
+Date:   Sat Dec 14 12:53:26 2024 +0530
+
+    compile error solved
+
+[33mcommit d18da42b7783af983accea29ed7128ec22fdbbac[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Sat Dec 14 11:49:35 2024 +0530
+
+    commit
+    
+    done
+
+[33mcommit a489a6b5288745fba9716c739a469ba981250826[m
+Merge: dbce0e1 86261b4
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Sat Dec 14 11:36:12 2024 +0530
+
+    Merge branch 'vishal' into Main-Branch
+
+[33mcommit 86261b4a3ea1f73cbe0a91c185c7d9496f5e3144[m
+Merge: 59eaea6 e0d7117
+Author: sh-james001 <sharadsinghvais@gmail.com>
+Date:   Fri Dec 13 21:12:34 2024 +0530
+
+    merge conflict solve
+
+[33mcommit 59eaea6dfda710d47450d6470a17ffadf95f9441[m
+Author: sh-james001 <sharadsinghvais@gmail.com>
+Date:   Fri Dec 13 21:06:57 2024 +0530
+
+    403 error solved
+
+[33mcommit e0d71177a97b3847f6f0e703e11f88e0abbd54f8[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Fri Dec 13 19:06:25 2024 +0530
+
+    commit
+    
+    done
+
+[33mcommit 52b3e49e36ac32086c8cdb075009f56808d96755[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Fri Dec 13 18:46:56 2024 +0530
+
+    done
+    
+    done
+
+[33mcommit 2885e7fd0b986b9355cf80103f48166cbed90a73[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Fri Dec 13 18:46:26 2024 +0530
+
+    commit
+    
+    Done
+
+[33mcommit dbce0e1beee09cfbc37c82d2e9ba7ed72fbd2e61[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Fri Dec 13 10:32:45 2024 +0530
+
+    Commit
+    
+    Done
+
+[33mcommit dd5bef9ab17a5e7684767bf378b028557ca2370b[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Dec 12 20:39:49 2024 +0530
+
+    commit
+    
+    done
+
+[33mcommit 6a0df989f0af68731e975a267e2f093ffda5cf3d[m
+Merge: 99b3fb6 4262027
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Dec 12 20:37:54 2024 +0530
+
+    Merge branch 'vishal' into Main-Branch
+
+[33mcommit 426202730b0bdde7659240ee79d135bfade10da2[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Dec 12 20:36:55 2024 +0530
+
+    commit
+    
+    done
+
+[33mcommit 99b3fb670b437255bf1c96a066d8bd4f7b532986[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Dec 12 18:22:09 2024 +0530
+
+    commit
+    
+    Done
+
+[33mcommit d162c2626ae109b2e4357219ef48182251946772[m
+Merge: 48fb8cf 6855dbb
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Dec 12 18:20:00 2024 +0530
+
+    Merge branch 'vishal' into Main-Branch
+
+[33mcommit 6855dbb74e39184c8885bc07094e49ce1cf96c9a[m
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Thu Dec 12 18:14:00 2024 +0530
+
+    Commit
+    
+    Update in group and plant classes
+
+[33mcommit 48fb8cfcbf36b62ab74a63addf47565d30899726[m
+Merge: e321d09 00602fd
+Author: sh-james001 <sharadsinghvais@gmail.com>
+Date:   Thu Dec 12 10:41:30 2024 +0530
+
+    merge conflict solve
+
+[33mcommit e321d09e72033753ec71bf73a66d13e55f9a3487[m
+Author: sh-james001 <sharadsinghvais@gmail.com>
+Date:   Thu Dec 12 10:35:22 2024 +0530
+
+    user table modified
+
+[33mcommit 24179fb983b0bea98d054dcbbcd984bf3159a42b[m
+Merge: 77edd0d 00602fd
+Author: Vishalkr619 <bitugpt619@gmail.com>
+Date:   Wed Dec 11 12:36:50 2024 +0530
+
+    Merge branch 'Main-Branch' into vishal
+
+[33mcommit 00602fd80b7b4bc1019242ad5be1a5ac6ec93b2e[m
+Author: Vishalkr619 <bitugpt619@gm

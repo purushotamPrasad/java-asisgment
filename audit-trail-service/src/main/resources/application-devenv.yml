@@ -1,0 +1,15 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: http://broker:9092
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+  data:
+    mongodb:
+      uri: mongodb://admin:password@mongo:27017/audit-trail

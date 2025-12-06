@@ -1,0 +1,91 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: qssence
+      POSTGRES_PASSWORD: qssence@123
+      POSTGRES_DB: qssence_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - qssence-net
+
+  mongo:
+   image: mongo:6
+   container_name: mongo-db
+   ports:
+    - "27017:27017"
+   volumes:
+    - mongo_data:/data/db
+   restart: always
+
+  discovery-server:
+    build: ./discovery-server
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - qssence-net
+    depends_on:
+      - postgres
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/qssence_db
+      SPRING_DATASOURCE_USERNAME: qssence
+      SPRING_DATASOURCE_PASSWORD: qssence@123
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+    depends_on:
+      - postgres
+      - discovery-server
+    networks:
+      - qssence-net
+
+  document-initiation-service:
+    build: ./document-initiation-service
+    container_name: document-service
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/qssence_db
+      SPRING_DATASOURCE_USERNAME: qssence
+      SPRING_DATASOURCE_PASSWORD: qssence@123
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+    depends_on:
+      - postgres
+      - discovery-server
+    networks:
+      - qssence-net
+
+  audit-trail-service:
+    build: ./audit-trail-service
+    container_name: audit-service
+    ports:
+      - "8083:8083"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/qssence_db
+      SPRING_DATASOURCE_USERNAME: qssence
+      SPRING_DATASOURCE_PASSWORD: qssence@123
+    depends_on:
+      - postgres
+      - discovery-server
+    networks:
+      - qssence-net
+
+networks:
+  qssence-net:
+
+volumes:
+  postgres_data:
+  mongo_data:

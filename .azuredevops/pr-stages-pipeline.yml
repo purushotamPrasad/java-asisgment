@@ -1,0 +1,227 @@
+
+trigger: none
+pool:
+  name: Default
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+
+    # - checkout: self
+    #   persistCredentials: true
+    # - script: |
+    #     #!/bin/bash
+    #     increment_version() {
+    #         current_version=$1
+    #         major=$(echo "$current_version" | cut -d '.' -f1)
+    #         minor=$(echo "$current_version" | cut -d '.' -f2)
+    #         minor=$((minor + 1))
+    #         if [ $minor -gt 9 ]; then
+    #             major=$((major + 1))
+    #             minor=0
+    #         fi
+    #         echo "$major.$minor"
+    #     }
+    #     update_pom_xml() {
+    #       pom_file="$1"
+    #       ver=$(grep -oP '<version>\K[^<]*' "$pom_file" | grep 'SNAPSHOT' | sed 's/-SNAPSHOT//')
+    #       if [ -n "$ver" ]; then
+    #           echo "Updating version in $pom_file"
+    #           new_version=$(increment_version "$ver")
+    #           echo "ver: $ver"
+    #           echo "new_version: $new_version"
+    #           updated_pom_content=$(sed "s|<version>$ver-SNAPSHOT</version>|<version>$new_version-SNAPSHOT</version>|g" "$pom_file")
+    #           echo "updated_pom_content: $updated_pom_content"
+    #           echo "$updated_pom_content" > "$pom_file"
+    #           echo "Version updated in $pom_file to $new_version-SNAPSHOT"
+    #           echo "$pom_file" >> updated_poms.txt
+    #       fi
+    #     }
+    #     updated_pom_count=0
+    #     while IFS= read -r -d '' pom_file; do
+    #         update_pom_xml "$pom_file"
+    #         ((updated_pom_count++))
+    #     done < <(find . -type f -name 'pom.xml' -print0)
+
+    #     echo "Total updated pom.xml files: $updated_pom_count"
+
+    #     # Set user information
+    #     git config --global user.email "venturingdigitally@gmail.com"
+    #     git config --global user.name "venturing digitally"
+
+    #     # Add, commit, and push changes
+    #     git branch -a
+    #     git checkout investigation/unit_test_implementation_pipeline
+    #     git add .
+    #     git commit -m "Update pom.xml files"  
+    #     git diff
+    #     git push origin investigation/unit_test_implementation_pipeline  # Replace "master" with your branch name if different
+    #   displayName: 'Update and Push pom.xml files'
+
+    - checkout: self
+      persistCredentials: true
+    # - checkout: self
+      # persistCredentials: true
+    # - script: |
+      #   #!/bin/bash
+      #   increment_version() {
+      #       current_version=$1
+      #       major=$(echo "$current_version" | cut -d '.' -f1)
+      #       minor=$(echo "$current_version" | cut -d '.' -f2)
+      #       minor=$((minor + 1))
+      #       if [ $minor -gt 9 ]; then
+      #           major=$((major + 1))
+      #           minor=0
+      #       fi
+      #       echo "$major.$minor"
+      #   }
+      #   update_pom_xml() {
+      #     pom_file="$1"
+      #     ver=$(grep -oP '<version>\K[^<]*' "$pom_file" | grep 'SNAPSHOT' | sed 's/-SNAPSHOT//')
+      #     if [ -n "$ver" ]; then
+      #         echo "Updating version in $pom_file"
+      #         new_version=$(increment_version "$ver")
+      #         echo "ver: $ver"
+      #         echo "new_version: $new_version"
+      #         updated_pom_content=$(sed "s|<version>$ver-SNAPSHOT</version>|<version>$new_version-SNAPSHOT</version>|g" "$pom_file")
+      #         echo "updated_pom_content: $updated_pom_content"
+      #         echo "$updated_pom_content" > "$pom_file"
+      #         echo "Version updated in $pom_file to $new_version-SNAPSHOT"
+      #         echo "$pom_file" >> updated_poms.txt
+      #     fi
+      #   }
+      #   updated_pom_count=0
+      #   while IFS= read -r -d '' pom_file; do
+      #       update_pom_xml "$pom_file"
+      #       ((updated_pom_count++))
+      #   done < <(find . -type f -name 'pom.xml' -print0)
+
+      #   echo "Total updated pom.xml files: $updated_pom_count"
+
+      #   # Set user information
+      #   git config --global user.email "venturingdigitally@gmail.com"
+      #   git config --global user.name "venturing digitally"
+
+      #   # Add, commit, and push changes
+      #   git branch -a
+      #   git checkout investigation/unit_test_implementation_pipeline
+      #   git add .
+      #   git commit -m "Update pom.xml files"  
+      #   git diff
+      #   git push origin investigation/unit_test_implementation_pipeline  # Replace "master" with your branch name if different
+      # displayName: 'Update and Push pom.xml files'
+
+    - script: |
+        echo "##vso[task.setvariable variable=JAVA_HOME]$(JAVA_HOME_17_X64)"
+      displayName: 'Set JAVA_HOME to JDK 17'
+    - script: |
+        mvn compile jib:dockerBuild
+    
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        options: '-DskipTests=true'
+        publishJUnitResults: false
+        mavenVersionOption: 'Default'
+        goals: 'package'
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**/*.jar'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'jar_files'
+        publishLocation: 'Container'
+    - checkout: self
+      clean: true
+- stage: Deploy
+  jobs:
+    - deployment: DeployJob
+      environment: 
+        name: Testing
+        resourceType: VirtualMachine
+      pool:
+        name: Default 
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: DownloadBuildArtifacts@0
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'jar_files'
+                downloadPath: '$(System.DefaultWorkingDirectory)/deploy'
+
+            - task: SSH@0
+              inputs:
+                sshEndpoint: 'VPSConnection'
+                runOptions: 'commands'
+                commands: |
+                  mkdir -p /root/qssence/backend/pr-$(System.PullRequest.PullRequestId)
+                  find $(System.DefaultWorkingDirectory)/deploy/jar_files/ -type f -name "*.jar" | xargs -I {} cp {} /root/qssence/backend/pr-$(System.PullRequest.PullRequestId)/
+                  #cp -r $(System.DefaultWorkingDirectory)/deploy/jar_files/* /root/qssence/backend/pr-$(System.PullRequest.PullRequestId)/
+                  docker ps -a
+              displayName: 'Deploy artifacts to VPS'
+
+# - stage: Test 
+#   jobs:
+#   - job: TestJob
+#     pool:
+#       name: Default
+#     steps:
+#     - task: Maven@3
+#       inputs:
+#         mavenPomFile: 'pom.xml'
+#         goals: 'test'
+#         options: '-Dsurefire.useFile=false'  
+#     - script: |
+#         mvn test | tee test-output.txt
+#         cat test-output.txt | grep -E "Tests run|FAILURES|ERRORS"  # Extract relevant lines
+#       displayName: 'Run Tests and Display Summary'
+# steps:
+# - script: |
+#     echo "##vso[task.setvariable variable=JAVA_HOME]$(JAVA_HOME_17_X64)"
+#   displayName: 'Set JAVA_HOME to JDK 17'
+# - task: Maven@3
+#   inputs:
+#     mavenPomFile: 'pom.xml'
+#     mavenOptions: '-Xmx3072m'
+#     options: '-DskipTests=true'
+#     publishJUnitResults: false
+#     mavenVersionOption: 'Default'
+#     goals: 'package'
+    
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: '$(Build.SourcesDirectory)/target'
+#     Contents: '**/*.jar'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     ArtifactName: 'jar_files'
+#     publishLocation: 'Container'
+
+# - task: DownloadBuildArtifacts@0
+#   inputs:
+#     buildType: 'current'
+#     downloadType: 'single'
+#     artifactName: 'jar_files'
+#     downloadPath: '$(System.DefaultWorkingDirectory)/deploy'
+
+# - script: |
+#     # Move the artifact to your testing environment directory
+#     mv $(System.DefaultWorkingDirectory)/deploy/jar_files/*.jar /path/to/your/testing/environment/
+#     # Your deployment steps here, for example, restarting your application with the new jar
+#     # Example for a Spring Boot app:
+#     pkill -f 'java -jar' # Be careful with this, ensure it only targets your app
+#     nohup java -jar /path/to/your/testing/environment/your-app.jar > /dev/null 2>&1 &
+#   displayName: 'Deploy Artifacts and Restart Application'

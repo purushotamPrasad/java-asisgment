@@ -1,0 +1,170 @@
+#This is Updated Yml file...
+
+spring:
+  application:
+    name: auth-service
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  datasource:
+    url: jdbc:postgresql://46.28.44.11:5432/keycloakdb
+    username: keycloak
+    password: root@123
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: auth-client
+            client-secret: JLE8Aae60DDBlGjMUn05OIqgmx1lCIcI
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: https://auth.qssence.com/realms/authrealm
+            user-name-attribute: preferred_username
+      resource-server:
+        jwt:
+          issuer-uri: "REDACTED"
+
+            #***REMOVED***
+            # access-key: "REDACTED"
+            #***REMOVED*** J"REDACTED"
+  region: us-east-1
+  s3:
+    bucket: qssence-bucket
+
+server:
+  port: 8082
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://46.28.44.11:8761/eureka/
+
+kafka:
+  producer:
+    bootstrap-servers: 46.28.44.11:9092
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    auth-topic: auth-events
+    group-topic: group-events
+    role-topic: role-events
+    user-topic: user-events
+
+authService:
+  tokenEndpoint: https://auth.qssence.com/realms/authrealm/protocol/openid-connect/token
+
+keycloak:
+  realm: authrealm
+
+subscription:
+  panel:
+    decode-url: http://46.28.44.11:8085/api/v2/licenses/decode/
+
+
+
+#spring:
+#  application:
+#    name: auth-service
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/qssence_master
+#    username: postgres
+#    password: root
+#    hikari:
+#      idle-timeout: 60000
+#      maximum-pool-size: 10
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          keycloak:
+#            authorization-grant-type: authorization_code
+#            client-id: auth-client
+#            client-secret: "REDACTED"
+#            scope: openid
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8080/realms/authrealm
+#            user-name-attribute: preferred_username
+#      resource-server:
+#        jwt:
+#          issuer-uri: http://localhost:8080/realms/authrealm
+#
+#server:
+#  port: 8082
+#
+#eureka:
+#  client:
+#    service-url:  # ✅ Correct key
+#      defaultZone: http://localhost:8761/eureka/
+#
+#kafka:
+#  producer:
+#    bootstrap-servers: localhost:9092
+#    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#    auth-topic: auth-events
+#    group-topic: group-events
+#    role-topic: role-events
+#    user-topic: user-events
+#
+#authService:
+#  tokenEndpoint: http://localhost:8080/realms/authrealm/protocol/openid-connect/token
+#
+#keycloak:
+#  realm: authrealm
+#
+#  subscription:
+#    panel:
+#      decode-url: http://localhost:8085/api/v2/licenses/decode/
+#
+#
+#
+#***REMOVED***
+#  s3:
+#    bucket: qssence-bucket
+#  region: us-eas
+#
+#  servlet:
+#    multipart:
+#      max-file-size: 10MB
+#      max-request-size: 10MB
+#
+## Company Security Policy Configuration
+#company:
+#  security:
+#    allow-password-caching: false
+#    password-cache-timeout: 0
+#    force-password-change-on-first-login: true
+#    max-failed-login-attempts: 5
+#    account-lockout-duration: 30
+#    enable-sso: true
+#    sso-session-timeout: 480
+#    enable-auto-logout: true
+#    inactivity-timeout: 30
+#    enable-admin-session-timeout: true
+#    admin-session-timeout: 60
+#
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

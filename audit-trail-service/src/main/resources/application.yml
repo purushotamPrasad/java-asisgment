@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: audit-trail-service
+
+    security:
+      oauth2:
+        client:
+          registration:
+            keycloak:
+              authorizationGrantType: authorization_code
+              client-id: auth-client
+              client-secret: kUYwnk1QhBdYktZAAX0qFND2gMqYbtRI
+              scope: openid
+              authorization-grant-type: authorization_code
+          provider:
+            keycloak:
+              issuer-uri: https://auth.qssence.com/realms/QssenceRealm
+              user-name-attribute: preferred_username
+        resourceserver:
+          jwt:
+            issuer-uri: https://auth.qssence.com/realms/QssenceRealm
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+      topics:
+        auth:
+          name: auth-events
+          group-id: auth-consumer-group
+        role:
+          name: role-events
+          group-id: role-consumer-group
+        group:
+          name: group-events
+          group-id: group-consumer-group
+        user:
+          name: user-events
+          group-id: user-consumer-group
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/audit-trail
+      uuid-representation: STANDARD
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+server:
+  port: 8083
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+authService:
+  tokenEndpoint: https://auth.qssence.com/realms/QssenceRealm/protocol/openid-connect/token
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,169 @@
+version: "3.8"
+services:
+  #DATABASES
+  database-postgres:
+    container_name: database-postgres
+    image: postgres:latest
+    hostname: postgres
+    restart: unless-stopped
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - keycloak-network
+    environment:
+      POSTGRES_DB: qssence_master
+      POSTGRES_USER: QssenceDBAdmin
+      POSTGRES_PASSWORD: QssenceAdmin990
+
+  database-mongo:
+    container_name: database-mongo
+    image: mongo:latest
+    hostname: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo-data:/data/db
+    networks:
+      - keycloak-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+  #APPLICATIONS
+  #KEYCLOAK
+  server-keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: server-keycloak
+    hostname: keycloak
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    depends_on:
+      - database-postgres
+    command:
+      - start
+    networks:
+      - keycloak-network
+    volumes:
+      - ./keycloak/themes/keycloakify-starter-keycloak-theme-6.1.9.jar:/opt/keycloak/providers/keycloakify-starter-keycloak-theme-6.1.9.jar
+      - ./keycloak/themes/retrocompat-keycloakify-starter-keycloak-theme-6.1.9.jar:/opt/keycloak/providers/retrocompat-keycloakify-starter-keycloak-theme-6.1.9.jar
+    environment:
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://database-postgres/qssence_master
+      KC_DB_USERNAME: QssenceDBAdmin
+      KC_DB_PASSWORD: QssenceAdmin990
+      KC_HOSTNAME_URL: https://auth.qssence.com
+      KC_HOSTNAME_STRICT_HTTPS: "true"
+      KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
+      KC_PROXY: edge
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: QssenceAdmin990
+      KEYCLOAK_FRONTEND_URL: https://auth.qssence.com
+      KC_HOSTNAME_ADMIN_URL: https://auth.qssence.com
+  #ZOOKEEPER
+  server-zookeeper:
+    container_name: server-zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    hostname: zookeeper
+    restart: unless-stopped
+
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+  #APACHE-KAFKA
+  broker:
+    container_name: broker
+    hostname: broker
+    image: confluentinc/cp-kafka:latest
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+    depends_on:
+        - server-zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  #SERVICES
+  #Discovery-Server
+  discovery-server:
+    image: discovery-server:1.0-SNAPSHOT
+    platform: linux/amd64
+    hostname: discovery
+    pull_policy: never
+    environment:
+      - SPRING_PROFILES_ACTIVE=devenv
+    networks:
+      - keycloak-network
+    ports:
+      - "8761:8761"
+  #Api-gateway
+  api-gateway:
+    image: api-gateway:1.0-SNAPSHOT
+    platform: linux/amd64
+    hostname: api-gateway
+    pull_policy: never
+    environment:
+      - SPRING_PROFILES_ACTIVE=devenv
+    depends_on:
+      - discovery-server
+    networks:
+      - keycloak-network
+    ports:
+      - "8081:8081"
+  #Auth-service
+  auth-service:
+    image: auth-service:1.0-SNAPSHOT
+    hostname: auth-service
+    pull_policy: never
+    platform: linux/amd64
+    environment:
+      - SPRING_PROFILES_ACTIVE=devenv
+    depends_on:
+      - discovery-server
+      - api-gateway
+    networks:
+      - keycloak-network
+    ports:
+      - "8082:8082"
+  #Audit-Trail-Service
+  audit-trail-service:
+    image: audit-trail-service:1.0-SNAPSHOT
+    hostname: audit-trail
+    pull_policy: never
+    platform: linux/amd64
+    environment:
+      - SPRING_PROFILES_ACTIVE=devenv
+    depends_on:
+      - discovery-server
+      - api-gateway
+      - server-zookeeper
+      - broker
+    networks:
+      - keycloak-network
+    ports:
+      - '8083:8083'
+volumes:
+  mongodb-data:
+networks:
+  keycloak-network:
+    driver: bridge

@@ -1,0 +1,115 @@
+spring:
+  application:
+    name: document-initiation-service
+
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            auth-service:
+              - uri: http://46.28.44.11:8082 # adjust if different
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://auth.qssence.com/realms/authrealm
+          # Or, if needed:
+          # jwk-set-uri: https://auth.qssence.com/realms/authrealm/protocol/openid-connect/certs
+
+  datasource:
+    url: jdbc:postgresql://46.28.44.11:5432/document-initiation
+    username: keycloak
+    password: root@123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://46.28.44.11:8761/eureka/
+
+        #***REMOVED***
+        #***REMOVED*** "REDACTED"
+        # secret-key: "REDACTED"
+  region: us-east-1
+  s3:
+    bucket: qssence-bucket
+
+server:
+  port: 8084
+
+
+#
+#spring:
+#  application:
+#    name: document-initiation-service
+#
+#  cloud:
+#    discovery:
+#      client:
+#        simple:
+#          instances:
+#            auth-service:
+#              - uri: http://localhost:8082
+#
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/document-initiation
+#    username: postgres
+#    password: root
+#    driver-class-name: org.postgresql.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8080/realms/authrealm
+#
+#server:
+#  port: 8084
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#
+#***REMOVED
+#  region: us-east-1
+#  s3:
+#    bucket: qssence-bucket
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+   endpoint:
+        health:
+        show-details: always
+
+  document-initiation-service:
+    image: qssencebackend_new_document-initiation-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mongo
+  spring:
+   data:
+     mongodb:
+       uri: mongodb://docuser:docpass@mongo-db:27017/documentdb
+
+

@@ -1,0 +1,88 @@
+#server:
+#  port: 8085
+#
+#spring:
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: bitugpt619@gmail.com
+#    password: eyuz gjum ohve gblw
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/subscriptiondb
+#    username: postgres
+#    password: root
+#    driver-class-name: org.postgresql.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#
+#  application:
+#    name: subscription-panel
+#
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+#
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
+
+
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bitugpt619@gmail.com
+    password: eyuz gjum ohve gblw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  datasource:
+   url: jdbc:postgresql://46.28.44.11:5432/subscriptiondb
+   username: keycloak
+   password: root@123
+   driver-class-name: org.postgresql.Driver
+
+  jpa:
+   hibernate:
+     ddl-auto: update
+   properties:
+     hibernate:
+       dialect: org.hibernate.dialect.PostgreSQLDialect
+
+       application:
+         name: subscription-panel
+
+server:
+ port: 8085
+
+eureka:
+ client:
+   serviceUrl:
+     defaultZone: http://46.28.44.11:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
